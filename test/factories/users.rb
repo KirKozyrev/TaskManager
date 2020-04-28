@@ -1,19 +1,21 @@
+require_relative('global')
+
 FactoryBot.define do
   factory :user, aliases: [:admin, :developer, :manager] do
-    sequence(:first_name) {|n| "FirstName#{n}" }
-    sequence(:last_name) {|n| "LastName#{n}" }
-    sequence(:password) {|n| "Password#{n}" }
-    sequence(:email) { |n| "user#{n}@test.com" }
-    sequence(:avatar) { |n| "Avatar#{n}" }
+    first_name
+    last_name
+    password
+    email
+    avatar
 
     trait :admin do
-      type "admin"
+      type 'admin'
     end
     trait :developer do
-      type "developer"
+      type 'developer'
     end
     trait :manager do
-      type "manager"
+      type 'manager'
     end
   end
 end
