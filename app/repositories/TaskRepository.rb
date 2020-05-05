@@ -2,6 +2,14 @@ module TaskRepository
   extend ActiveSupport::Concern
 
   state_machine initial: :new_task do
+    state :new_task
+    state :in_development
+    state :in_qa
+    state :in_code_review
+    state :ready_for_release
+    state :released
+    state :archived
+
     event :to_development do
       transition new_task: :in_development
       transition in_qa: :in_development
