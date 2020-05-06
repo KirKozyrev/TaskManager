@@ -1,38 +1,42 @@
-require_relative('global')
-
 FactoryBot.define do
   factory :task do
-    name
-    description
-    expired_at
+    sequence :name do |n|
+      "Name#{n}"
+    end
+    sequence :description do |n|
+      "Description#{n}"
+    end
+    sequence :expired_at do |n|
+      (Date.today + n).to_s
+    end
 
     trait :author do
-      author_id 'user1'
+      author_id { 'user1' }
     end
     trait :assignee do
-      assignee_id 'user2'
+      assignee_id { 'user2' }
     end
 
     trait :new_task do
-      state 'new_task'
+      state { 'new_task' }
     end
     trait :in_development do
-      state 'in_development'
+      state { 'in_development' }
     end
     trait :in_qa do
-      state 'in_qa'
+      state { 'in_qa' }
     end
     trait :in_code_review do
-      state 'in_code_review'
+      state { 'in_code_review' }
     end
     trait :ready_for_release do
-      state 'ready_for_release'
+      state { 'ready_for_release' }
     end
     trait :released do
-      state 'released'
+      state { 'released' }
     end
     trait :archived do
-      state 'archived'
+      state { 'archived' }
     end
   end
 end
