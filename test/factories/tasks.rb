@@ -1,14 +1,8 @@
 FactoryBot.define do
   factory :task do
-    sequence :name do |n|
-      "Name#{n}"
-    end
-    sequence :description do |n|
-      "Description#{n}"
-    end
-    sequence :expired_at do |n|
-      (Date.today + n).to_s
-    end
+    name { generate :name_string }
+    description { generate :string }
+    expired_at { generate :date }
 
     trait :author do
       author_id { 'user1' }

@@ -1,20 +1,10 @@
 FactoryBot.define do
   factory :user, aliases: [:admin, :developer, :manager] do
-    sequence :first_name do |n|
-      "FirstName#{n}"
-    end
-    sequence :last_name do |n|
-      "LastName#{n}"
-    end
-    sequence :password do |n|
-      "Password#{n}"
-    end
-    sequence :email do |n|
-      "user#{n}@test.com"
-    end
-    sequence :avatar do |n|
-      "Avatar#{n}"
-    end
+    first_name { generate :name_string }
+    last_name { generate :name_string }
+    password { generate :string }
+    email
+    avatar { generate :string }
 
     trait :admin do
       type { 'admin' }
