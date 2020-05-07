@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  root :to => "web/boards#show"
+  root to: 'web/boards#show'
 
   scope module: :web do
     resource :board, only: :show
     resource :session, only: :new
+    resources :developers, only: %i[new create]
   end
 end
