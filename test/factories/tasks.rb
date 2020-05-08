@@ -5,10 +5,10 @@ FactoryBot.define do
     expired_at
 
     trait :author do
-      author_id { 'user1' }
+      author factory: :manager
     end
     trait :assignee do
-      assignee_id { 'user2' }
+      assignee factory: :developer
     end
 
     trait :new_task do
