@@ -7,13 +7,13 @@ FactoryBot.define do
     avatar { generate :string }
 
     factory :admin do
-      type { 'admin' }
+      type { 'Admin' }
     end
     factory :developer do
-      type { 'developer' }
+      type { 'Developer' }
     end
     factory :manager do
-      type { 'manager' }
+      type { 'Manager' }
     end
   end
 end
