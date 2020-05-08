@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :task do
-    name { generate :name_string }
-    description { generate :string }
-    expired_at { generate :date }
+    name
+    description
+    expired_at
 
     trait :author do
       author_id { 'user1' }
