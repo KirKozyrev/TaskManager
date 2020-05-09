@@ -1,19 +1,19 @@
 FactoryBot.define do
-  factory :user, aliases: [:admin, :developer, :manager] do
-    first_name { generate :name_string }
-    last_name { generate :name_string }
-    password { generate :string }
+  factory :user do
+    first_name
+    last_name
+    password
     email
     avatar { generate :string }
 
-    trait :admin do
-      type { 'admin' }
+    factory :admin do
+      type { 'Admin' }
     end
-    trait :developer do
-      type { 'developer' }
+    factory :developer do
+      type { 'Developer' }
     end
-    trait :manager do
-      type { 'manager' }
+    factory :manager do
+      type { 'Manager' }
     end
   end
 end

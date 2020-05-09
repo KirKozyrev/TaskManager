@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   scope module: :web do
     resource :board, only: :show
-    resource :session, only: :new
     resources :developers, only: %i[new create]
+    resource :session, only: %i[new create destroy]
   end
 end
