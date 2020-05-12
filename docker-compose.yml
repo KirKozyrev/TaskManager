@@ -17,6 +17,7 @@ services:
       - GEM_PATH=/bundle_cache
       - DATABASE_HOST=db
       - DATABASE_USERNAME=postgres
+      - RUBYOPT=-W:no-deprecated -W:no-experimental
   db:
     image: postgres:10.3-alpine
   bundle_cache:
