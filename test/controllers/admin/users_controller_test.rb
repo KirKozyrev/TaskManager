@@ -5,4 +5,15 @@ class Admin::UsersControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+
+  test "should get edit" do
+    user = create(:user)
+    get :edit, params: { id: user.id }
+    assert_response :success
+  end
+
+  test "should get new" do
+    get :new
+    assert_response :success
+  end
 end
