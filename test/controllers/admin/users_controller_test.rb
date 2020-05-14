@@ -28,7 +28,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     user = create(:user)
     user_attrs = attributes_for(:user)
     patch :update, params: { id: user.id, user: user_attrs }
-    searched_user = User.find(user.id);
+    searched_user = User.find(user.id)
     user_attrs.each do |key, value|
       unless (key.to_s == 'avatar' or key.to_s == 'password')
         assert_equal value, searched_user[key]
@@ -39,7 +39,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test "should delete destroy" do
     user = create(:user)
     delete :destroy, params: {id: user.id }
-    searched_user = User.where(id: user.id).take;
+    searched_user = User.where(id: user.id).take
     assert searched_user.nil?
   end
 end
