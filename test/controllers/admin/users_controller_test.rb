@@ -20,8 +20,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test "should post create" do
     user_attrs = attributes_for(:user)
     post :create, params: { user: user_attrs }
-    new_user = User.find_by(first_name: user_attrs[:first_name])
-    assert_not new_user.nil?
+    new_user = User.find_by(email: user_attrs[:email])
+    assert new_user.present?
   end
  
   test "should patch update" do
@@ -39,7 +39,6 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test "should delete destroy" do
     user = create(:user)
     delete :destroy, params: {id: user.id }
-    searched_user = User.where(id: user.id).take
-    assert searched_user.nil?
+    assert_not User.exists?(id: user.id)
   end
 end
