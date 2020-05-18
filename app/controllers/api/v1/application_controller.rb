@@ -1,4 +1,7 @@
 class Api::V1::ApplicationController < Api::ApplicationController
+  include AuthHelper
+  helper_method :current_user
+  
   RANSACK_DEFAULT_SORT = 'id ASC'.freeze
 
   def self.responder
