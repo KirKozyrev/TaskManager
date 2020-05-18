@@ -26,7 +26,9 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     created_task = Task.find(data['task']['id'])
 
     assert created_task.present?
-    assert_equal task_attributes.stringify_keys, created_task.slice(*task_attributes.keys)
+    task_attributes.keys.each do |key|
+      assert_equal task_attributes.stringify_keys[key.to_s].to_s, created_task[key.to_s].to_s
+    end
   end
 
   test 'should put update' do
@@ -41,7 +43,9 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     assert_response :success
 
     task.reload
-    assert_equal task.slice(*task_attributes.keys), task_attributes
+    task_attributes.keys.each do |key|
+      assert_equal task_attributes[key.to_s].to_s, task[key.to_s].to_s
+    end
   end
 
   test 'should delete destroy' do
