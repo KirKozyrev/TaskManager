@@ -23,7 +23,7 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     assert_response :created
 
     data = JSON.parse(response.body)
-    created_task = Task.find(data['task']['id'])
+    created_task = Task.find_by(id: data['task']['id'])
 
     assert created_task.present?
     task_attributes.keys.each do |key|
