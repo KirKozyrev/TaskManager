@@ -1,6 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   def index
-    tasks = Task.all.
+    tasks = Task.
       ransack(ransack_params).
       result.
       page(page).
@@ -10,11 +10,9 @@ class Api::V1::TasksController < Api::V1::ApplicationController
   end
 
   def show
-    def show
-      task = Task.find(params[:id])
+    task = Task.find(params[:id])
 
-      respond_with(task, serializer: TaskSerializer)
-    end
+    respond_with(task, serializer: TaskSerializer)
   end
 
   def create
