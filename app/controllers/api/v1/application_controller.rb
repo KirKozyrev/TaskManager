@@ -1,14 +1,13 @@
 class Api::V1::ApplicationController < Api::ApplicationController
   include AuthHelper
   helper_method :current_user
+  respond_to :html, :xml, :json
 
   RANSACK_DEFAULT_SORT = 'id ASC'.freeze
 
   def self.responder
     JsonResponder
   end
-
-  respond_to :html, :xml, :json
 
   def build_meta(collection)
     {
