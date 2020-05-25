@@ -57,12 +57,7 @@ export default {
     return axios.put(url, body).then(camelize);
   },
 
-  delete(url, params = {}) {
-    return axios
-      .delete(url, {
-        params: decamelize(params),
-        paramsSerializer: (parameters) => qs.stringify(parameters, { encode: false }),
-      })
-      .then(camelize);
+  delete(url) {
+    return axios.delete(url).then(camelize);
   },
 };
