@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import KanbanBoard from '@lourenci/react-kanban';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { propOr } from 'ramda';
 
 import Task from '../Task';
 import ColumnHeader from '../ColumnHeader';
 import TasksRepository from '../../../repositories/TasksRepository';
+
+import useStyles from './useStyles';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -25,9 +29,25 @@ const initialBoard = {
   })),
 };
 
+const MODES = {
+  ADD: 'add',
+  NONE: 'none',
+};
+
 const TaskBoard = () => {
+  const styles = useStyles();
+
   const [board, setBoard] = useState(initialBoard);
   const [boardCards, setBoardCards] = useState([]);
+  const [mode, setMode] = useState(MODES.NONE);
+
+  const handleOpenAddPopup = () => {
+    setMode(MODES.ADD);
+  };
+
+  const handleClose = () => {
+    setMode(MODES.NONE);
+  };
 
   const generateBoard = () => {
     const generatedBoard = {
@@ -98,13 +118,18 @@ const TaskBoard = () => {
   useEffect(() => generateBoard(), [boardCards]);
 
   return (
-    <KanbanBoard
-      onCardDragEnd={handleCardDragEnd}
-      renderCard={(card) => <Task task={card} />}
-      renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
-    >
-      {board}
-    </KanbanBoard>
+    <>
+      <KanbanBoard
+        onCardDragEnd={handleCardDragEnd}
+        renderCard={(card) => <Task task={card} />}
+        renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
+      >
+        {board}
+      </KanbanBoard>
+      <Fab className={styles.addButton} onClick={handleOpenAddPopup} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
+    </>
   );
 };
 
