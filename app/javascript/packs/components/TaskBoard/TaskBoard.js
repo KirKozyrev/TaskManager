@@ -5,6 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { propOr } from 'ramda';
 
 import Task from '../Task';
+import TaskForm from '../../../forms/TaskForm';
+import AddPopup from '../AddPopup';
 import ColumnHeader from '../ColumnHeader';
 import TasksRepository from '../../../repositories/TasksRepository';
 
@@ -114,6 +116,14 @@ const TaskBoard = () => {
       });
   };
 
+  const handleTaskCreate = (params) => {
+    const attributes = TaskForm.attributesToSubmit(params);
+    return TasksRepository.create(attributes).then(({ data: { task } }) => {
+      loadColumnInitial(task.state);
+      setMode(MODES.NONE);
+    });
+  };
+
   useEffect(() => loadBoard(), []);
   useEffect(() => generateBoard(), [boardCards]);
 
@@ -126,6 +136,7 @@ const TaskBoard = () => {
       >
         {board}
       </KanbanBoard>
+      {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />}
       <Fab className={styles.addButton} onClick={handleOpenAddPopup} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
