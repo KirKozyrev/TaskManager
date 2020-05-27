@@ -4,7 +4,7 @@ import { propOr } from 'ramda';
 
 import Task from '../Task';
 import ColumnHeader from '../ColumnHeader';
-import TasksRepository from 'repositories/TasksRepository';
+import TasksRepository from '../../../repositories/TasksRepository';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -78,11 +78,28 @@ const TaskBoard = () => {
     STATES.map(({ key }) => loadColumnInitial(key));
   };
 
+  const handleCardDragEnd = (task, source, destination) => {
+    const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
+    if (!transition) {
+      return null;
+    }
+
+    return TasksRepository.update(task.id, { stateEvent: transition.event })
+      .then(() => {
+        loadColumnInitial(destination.toColumnId);
+        loadColumnInitial(source.fromColumnId);
+      })
+      .catch((error) => {
+        alert(`Move failed! ${error.message}`);
+      });
+  };
+
   useEffect(() => loadBoard(), []);
   useEffect(() => generateBoard(), [boardCards]);
 
   return (
     <KanbanBoard
+      onCardDragEnd={handleCardDragEnd}
       renderCard={(card) => <Task task={card} />}
       renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
     >
