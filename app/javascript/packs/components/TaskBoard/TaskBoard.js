@@ -68,7 +68,7 @@ const TaskBoard = () => {
       setBoardCards((prevState) => {
         return {
           ...prevState,
-          [state]: { cards: prevState[state].cards.push(...data.items), meta: data.meta },
+          [state]: { cards: prevState[state].cards.concat(data.items), meta: data.meta },
         };
       });
     });
