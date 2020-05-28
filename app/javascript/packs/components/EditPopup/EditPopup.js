@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isNil } from 'ramda';
 
-import Form from './components/Form';
+import Form from './Form';
 import Modal from '@material-ui/core/Modal';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
