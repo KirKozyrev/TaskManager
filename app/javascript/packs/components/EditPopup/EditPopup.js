@@ -15,7 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import useStyles from './useStyles';
 
-const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate }) => {
+const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard }) => {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
@@ -28,7 +28,7 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
   const handleCardUpdate = () => {
     setSaving(true);
 
-    onCardUpdate(task).catch((error) => {
+    onUpdateCard(task).catch((error) => {
       setSaving(false);
       setErrors(error || {});
 
@@ -41,7 +41,7 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
   const handleCardDestroy = () => {
     setSaving(true);
 
-    onCardDestroy(task).catch((error) => {
+    onDestroyCard(task).catch((error) => {
       setSaving(false);
 
       alert(`Destrucion Failed! Error: ${error.message}`);
@@ -95,11 +95,11 @@ const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate })
 };
 
 EditPopup.propTypes = {
-  cardId: PropTypes.shape().isRequired,
+  cardId: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCardDestroy: PropTypes.func.isRequired,
+  onDestroyCard: PropTypes.func.isRequired,
   onLoadCard: PropTypes.func.isRequired,
-  onCardUpdate: PropTypes.func.isRequired,
+  onUpdateCard: PropTypes.func.isRequired,
 };
 
 export default EditPopup;
