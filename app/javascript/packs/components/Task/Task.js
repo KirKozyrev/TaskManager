@@ -8,11 +8,12 @@ import Typography from '@material-ui/core/Typography';
 
 import useStyles from './useStyles';
 
-const Task = ({ task }) => {
+const Task = ({ task, onClick }) => {
   const styles = useStyles;
+  const handleClick = () => onClick(task);
 
   return (
-    <Card className={styles.root}>
+    <Card onClick={handleClick} className={styles.root}>
       <CardHeader title={task.name} />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -25,6 +26,7 @@ const Task = ({ task }) => {
 
 Task.propTypes = {
   task: PropTypes.shape().isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Task;
