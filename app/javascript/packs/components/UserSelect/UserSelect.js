@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-
 import InputLabel from '@material-ui/core/InputLabel';
 
 import UsersRepository from 'repositories/UsersRepository';
@@ -57,9 +56,9 @@ UserSelect.propTypes = {
 
 UserSelect.defaultProps = {
   error: false,
-  isClearable: false,
+  isClearable: true,
   isDisabled: false,
-  isRequired: false,
+  isRequired: true,
   onChange: () => {},
   value: {},
   helperText: '',
