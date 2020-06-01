@@ -8,9 +8,8 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   def index
     users = User.
       ransack(ransack_params).
-      result.page(page).
-      per(per_page)
+      result
 
-    respond_with(users, each_serializer: UserSerializer, meta: build_meta(users), root: 'items')
+    respond_with(users, each_serializer: UserSerializer, root: 'items')
   end
 end
