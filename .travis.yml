@@ -1,4 +1,6 @@
 sudo: required
+os: linux
+dist: ubuntu
 services:
   - docker
 env:
