@@ -1,6 +1,7 @@
 # README
 
 [![Build Status](https://travis-ci.com/KirKozyrev/TaskManager.svg?branch=feature/devops)](https://travis-ci.com/KirKozyrev/TaskManager)
+[![Coverage Status](https://coveralls.io/repos/github/KirKozyrev/TaskManager/badge.svg?branch=develop)](https://coveralls.io/github/KirKozyrev/TaskManager?branch=feature/devops)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
