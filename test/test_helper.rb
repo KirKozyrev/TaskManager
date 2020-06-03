@@ -5,7 +5,9 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'Capybara'
 
-Capybara.default_max_wait_time = 45
+Capybara.configure do |config|
+  config.default_max_wait_time = 45
+end
 
 class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors)
