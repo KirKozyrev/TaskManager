@@ -22,6 +22,7 @@ gem 'webpacker', '~> 4.0'
 gem 'webpacker-react'
 
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'coveralls', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
