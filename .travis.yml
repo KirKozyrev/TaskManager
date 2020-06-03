@@ -1,6 +1,6 @@
 sudo: required
 os: linux
-dist: ubuntu
+dist: debian
 services:
   - docker
 env:
