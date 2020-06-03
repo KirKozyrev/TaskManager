@@ -3,7 +3,7 @@ require 'coveralls'
 Coveralls.wear!('rails')
 require_relative '../config/environment'
 require 'rails/test_help'
-require 'Capybara'
+require 'capybara'
 
 Capybara.configure do |config|
   config.default_max_wait_time = 45
