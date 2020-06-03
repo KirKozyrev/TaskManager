@@ -1,6 +1,6 @@
-sudo: required
+language: ruby
 os: linux
-dist: debian
+
 services:
   - docker
 env:
