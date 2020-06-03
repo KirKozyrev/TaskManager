@@ -1,6 +1,6 @@
 # README
 
-[![Build Status](https://travis-ci.com/KirKozyrev/TaskManager.svg?branch=develop)](https://travis-ci.com/KirKozyrev/TaskManager)exit
+[![Build Status](https://travis-ci.com/KirKozyrev/TaskManager.svg?branch=feature/devops)](https://travis-ci.com/KirKozyrev/TaskManager)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
