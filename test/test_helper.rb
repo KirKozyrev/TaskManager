@@ -1,8 +1,12 @@
+require 'simplecov'
+SimpleCov.start 'rails'
+
+require 'coveralls'
+Coveralls.wear!('rails')
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 
-require 'coveralls'
-Coveralls.wear!
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
