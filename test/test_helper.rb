@@ -1,9 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
+require_relative '../config/environment'
 
 require 'coveralls'
-Coveralls.wear!('rails')
-
-require_relative '../config/environment'
+Coveralls.wear!
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
