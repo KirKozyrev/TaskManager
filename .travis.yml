@@ -15,4 +15,4 @@ before_install:
 script:
   - docker-compose run --rm web /bin/sh -c "RAILS_ENV=test  bundle exec rake test; bundle exec coveralls report"
 after_success:
-  - CI=true TRAVIS=true coveralls --verbose
+  - CI=true TRAVIS=true coveralls push --verbose
