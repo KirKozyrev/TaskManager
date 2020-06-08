@@ -65,6 +65,7 @@ Rails.application.configure do
     Bullet.alert = true
     Bullet.bullet_logger = true
     Bullet.console = true
+    Bullet.rollbar = true
     Bullet.rails_logger = true
     Bullet.add_footer = true
     Bullet.skip_html_injection = false
