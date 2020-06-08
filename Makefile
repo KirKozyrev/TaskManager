@@ -30,10 +30,10 @@ prepare:
 lint: test_web lint_web lint_frontend
 
 lint_web:
-	bundle exec rubocop --auto-correct
+	docker-compose run --rm web bash -c "bundle exec rubocop --auto-correct"
 
 test_web:
-	bundle exec rails test
+	docker-compose run --rm web bash -c "bundle exec rails test"
 
 lint_frontend:
-	yarn run eslint --fix
+	docker-compose run --rm web bash -c "yarn run lint --fix"
