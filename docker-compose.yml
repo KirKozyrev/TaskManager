@@ -9,6 +9,7 @@ services:
       - ~/.bash_history:/root/.bash_history
       - &bundle-cache-volume bundle_cache:/bundle_cache
     ports:
+      - 587:587
       - 3000:3000
       - 3001:3001
       - 3002:3002
@@ -23,6 +24,12 @@ services:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
+      MAILER_USERNAME: development.work73@gmail.com
+      MAILER_PASSWORD: taskmanager73
+      MAILER_ADDRESS: smtp.gmail.com
+      MAILER_PORT: 587
+      MAILER_DOMAIN: taskmanager.com
+      MAILER_AUTHENTICATION: plain
     command: bundle exec rails s -b '0.0.0.0' -p 3000
 
   db:
