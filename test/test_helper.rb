@@ -13,7 +13,8 @@ class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors)
 
   fixtures :all
-
+  
+  include ActionMailer::TestHelper
   include FactoryBot::Syntax::Methods
   include AuthHelper
 end
