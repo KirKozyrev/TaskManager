@@ -1,1 +1,7 @@
 | Task #{@task.id} was updated
+
+table
+  - @task.as_json.each do |key, value|
+    tr
+      td = key
+      td = value
