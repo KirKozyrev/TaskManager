@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resource :board, only: :show
     resources :developers, only: %i[new create]
     resource :session, only: %i[new create destroy]
+    resources :password_resets, only: [:new, :create, :edit, :update]
   end
 
   namespace :admin do
