@@ -9,9 +9,8 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
 
-  def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
+  def User.encrypt(string)
+    Base64.encode64(string)
   end
 
   def User.new_token
@@ -20,7 +19,7 @@ class User < ApplicationRecord
 
   def create_reset_digest
     self.reset_token = User.new_token
-    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_digest,  User.encrypt(reset_token))
     update_attribute(:reset_sent_at, Time.zone.now)
   end
 end
