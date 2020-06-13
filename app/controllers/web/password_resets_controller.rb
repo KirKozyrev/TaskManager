@@ -7,14 +7,17 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def create
-    user = User.find_by(password_reset_params)
+    @password_reset = ResetForm.new(password_reset_params)
+    user = @password_reset.user
     
-    if user
+    if @password_reset.valid?
       user.create_reset_digest
 
       UserMailer.with({ user: user }).password_reset.deliver_now
 
       redirect_to root_url
+    else
+      render(:new)
     end
   end
 
