@@ -1,6 +1,5 @@
 class Web::PasswordResetsController < Web::ApplicationController
   before_action :get_user,         only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update]
 
   def new
     @password_reset = ResetForm.new
@@ -22,15 +21,14 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def update
-    if params[@user_type][:password].empty?
-      @user.errors.add(:password, "can't be empty")
-      render 'edit'
-    elsif @user.update(user_params)
+    redirect_to root_url if @user.token_expire?
+
+    if @user.update(user_params)
       @user.reset_digest = nil
       @user.save
       redirect_to root_url
     else
-      render 'edit'
+      render(:edit)
     end
   end
 
@@ -50,11 +48,5 @@ class Web::PasswordResetsController < Web::ApplicationController
   def get_user
     @user = User.find_by(reset_digest: User.encrypt(params[:id]))
     @user_type = @user.type.downcase
-  end
-
-  def check_expiration
-    if @user.reset_sent_at < 24.hours.ago
-      redirect_to new_password_reset_url
-    end
   end
 end
