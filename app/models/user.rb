@@ -15,6 +15,10 @@ class User < ApplicationRecord
     self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
   end
 
+  def token_expire?
+    return true if self.reset_sent_at < 24.hours.ago
+  end
+
   def self.encrypt(string)
     Base64.encode64(string)
   end
