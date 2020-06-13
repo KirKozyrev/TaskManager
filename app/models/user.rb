@@ -8,17 +8,18 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
-
-  def User.encrypt(string)
-    Base64.encode64(string)
-  end
-
-  def User.new_token
-    SecureRandom.urlsafe_base64
-  end
+  validates :reset_digest, uniqueness: true
 
   def create_reset_digest
     self.reset_token = User.new_token
     self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
+  end
+
+  def self.encrypt(string)
+    Base64.encode64(string)
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
   end
 end
