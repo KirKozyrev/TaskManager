@@ -1,2 +1,2 @@
 service_name: travis-ci
-repo_token: cb3By1upKJctZv4k1S7XoTuFneDhjmnhP
+repo_token: $COVERALLS_TOKEN

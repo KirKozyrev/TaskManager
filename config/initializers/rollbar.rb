@@ -1,5 +1,5 @@
 Rollbar.configure do |config|
-  config.access_token = '88a2e474717f4a4fa30665d87a08ee14'
+  config.access_token = ENV['ROLLBAR_TOKEN']
 
   if Rails.env.test?
     config.enabled = false
