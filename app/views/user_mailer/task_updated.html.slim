@@ -1,7 +1,18 @@
-| Task #{@task.id} was updated
-
-table
-  - @task.as_json.each do |key, value|
-    tr
-      td = key
-      td = value
+table style="width: 100%; font-family: Arial;"
+  tr style="display: block; padding: 2px 20px; background-color: #3f51b5; color: #fff;"
+    td
+      p style="font-size: 24px; line-height: 1; letter-spacing: .02em; font-weight: 400;" 
+        | Task Manager
+  tr style="display: block; padding: 20px 20px;"
+    td
+      p style="font-size: 18px; line-height: 1; letter-spacing: .02em; font-weight: 400;"
+        | Task #{@task.id} was updated.
+      table style="margin-top: 20px; border-collapse: collapse;"
+        - @task.as_json.each do |key, value|
+          tr style="font-size: 16px; line-height: 1; letter-spacing: .02em; font-weight: 400;"
+            td style="padding: 3px; border: 1px solid #000;" = key
+            td style="padding: 3px; border: 1px solid #000;" = value
+  tr style="display: block; padding: 5px 20px; background-color: #424242; color: #fff;"
+    td
+      p style="font-size: 14px; line-height: 1; letter-spacing: .02em; font-weight: 400;"
+        | &copy; Dualboot Learn 2020
