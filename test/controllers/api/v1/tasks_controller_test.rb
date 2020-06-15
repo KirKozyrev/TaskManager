@@ -20,7 +20,7 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     task_attributes = attributes_for(:task).merge({ assignee_id: assignee.id })
     
     assert_emails 1 do
-      post :create, params: { task: task_attributes, format: :json }
+      post :create, params: { task: task_attributes }, format: 'json'
     end
     assert_response :created
 
@@ -43,7 +43,7 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
       stringify_keys
 
     assert_emails 1 do
-      patch :update, params: { id: task.id, format: :json, task: task_attributes }
+      patch :update, params: { id: task.id, task: task_attributes }, format: 'json'
     end
     assert_response :success
 
@@ -59,7 +59,7 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     task = create(:task, author: author)
 
     assert_emails 1 do
-      delete :destroy, params: { id: task.id, format: :json }
+      delete :destroy, params: { id: task.id }, format: 'json'
     end
     assert_response :success
 

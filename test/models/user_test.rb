@@ -12,7 +12,7 @@ class UserTest < ActiveSupport::TestCase
 
     user_db = User.find_by(id: user.id)
 
-    assert_not user_db[:reset_digest].nil?
-    assert_not user_db[:reset_sent_at].nil?
+    assert_not user_db.reset_digest.nil?
+    assert_not user_db.reset_sent_at.nil?
   end
 end
