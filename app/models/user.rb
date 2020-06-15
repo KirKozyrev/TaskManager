@@ -8,7 +8,6 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
-  validates :reset_digest, uniqueness: true
 
   def create_reset_digest
     self.reset_token = User.new_token
