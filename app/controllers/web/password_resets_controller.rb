@@ -1,5 +1,5 @@
 class Web::PasswordResetsController < Web::ApplicationController
-  before_action :get_user,         only: [:edit, :update]
+  before_action :get_user, only: [:edit, :update]
 
   def new
     @password_reset = ResetForm.new
@@ -47,6 +47,6 @@ class Web::PasswordResetsController < Web::ApplicationController
 
   def get_user
     @user = User.find_by(reset_digest: User.encrypt(params[:id]))
-    @user_type = @user.type.downcase
+    @user_type = @user.type.downcase || 'user'
   end
 end
