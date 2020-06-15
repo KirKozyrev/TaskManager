@@ -21,7 +21,10 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def update
-    render(:new) if @user.token_expire?
+    if @user.token_expire?
+      redirect_to root_url 
+      return
+    end
 
     if @user.update(user_params)
       @user.reset_digest = nil
