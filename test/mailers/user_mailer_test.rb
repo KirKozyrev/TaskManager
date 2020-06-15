@@ -36,7 +36,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "task deleted" do
     user = create(:user)
     task = create(:task, author: user)
-    params = { user: user, task: task }
+    params = { user: user, id: task.id }
     email = UserMailer.with(params).task_deleted
 
     assert_emails 1 do
@@ -51,8 +51,8 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "password reset" do
     user = create(:user)
-    params = { user: user }
     user.create_reset_digest
+    params = { user: user }.merge({reset_token: user.reset_token})
 
     email = UserMailer.with(params).password_reset
 

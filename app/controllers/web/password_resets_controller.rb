@@ -12,7 +12,7 @@ class Web::PasswordResetsController < Web::ApplicationController
     if @password_reset.valid?
       user.create_reset_digest
 
-      UserMailer.with({ user: user }).password_reset.deliver_later
+      UserMailer.with({ user: user, reset_token: user.reset_token }).password_reset.deliver_later
 
       redirect_to root_url
     else
