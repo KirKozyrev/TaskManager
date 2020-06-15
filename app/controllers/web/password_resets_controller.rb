@@ -21,7 +21,7 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def update
-    redirect_to root_url if @user.token_expire?
+    render(:new) if @user.token_expire?
 
     if @user.update(user_params)
       @user.reset_digest = nil
@@ -47,6 +47,11 @@ class Web::PasswordResetsController < Web::ApplicationController
 
   def get_user
     @user = User.find_by(reset_digest: User.encrypt(params[:id]))
-    @user_type = @user.type.downcase || 'user'
+
+    if @user.present?
+      @user_type = @user.type.downcase
+    else
+      redirect_to root_url
+    end
   end
 end
