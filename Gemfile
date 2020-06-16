@@ -28,7 +28,7 @@ gem 'webpacker', '~> 4.0'
 gem 'webpacker-react'
 
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'coveralls', require: false
+gem 'coveralls', '>= 0.8.23',require: false
 
 group :development, :test do
   gem 'bullet'
@@ -47,7 +47,7 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.16.1',require: false
   gem 'webdrivers'
 end
 
