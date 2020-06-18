@@ -35,6 +35,8 @@ services:
       LOCAL_HOST: 0.0.0.0:3000
       PRODUCTION_HOST: sleepy-brushlands-18624.herokuapp.com
       REDIS_URL: redis://redis
+      AWS_ACCESS_KEY_ID: AKIA3C4UHVZWMIRL6BPF
+      AWS_SECRET_ACCESS_KEY: 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
     command: bundle exec rails s -b '0.0.0.0' -p 3000
 
   db:
