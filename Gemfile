@@ -27,6 +27,7 @@ gem 'state_machines-activerecord'
 gem 'webpacker', '~> 4.0'
 gem 'webpacker-react'
 
+gem "aws-sdk-s3", require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'coveralls', '>= 0.8.23',require: false
 
