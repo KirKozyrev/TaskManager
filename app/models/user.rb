@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def token_expire?
-    return true if self.reset_sent_at < ONE_DAY_AGO
+    self.reset_sent_at < ONE_DAY_AGO
   end
 
   def self.encrypt(string)
