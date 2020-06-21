@@ -5,7 +5,12 @@ class Admin::UsersController < Admin::ApplicationController
 
   def index
     @q = User.ransack(params[:q])
-    @users = @q.result.order(:type).order(:id).page(params[:page]).per(10)
+    @users = @q.result.
+      includes([:avatar_attachment]).
+      order(:type).
+      order(:id).
+      page(params[:page]).
+      per(10)
   end
 
   def edit
@@ -43,6 +48,6 @@ class Admin::UsersController < Admin::ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :type)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :type, :avatar)
   end
 end
