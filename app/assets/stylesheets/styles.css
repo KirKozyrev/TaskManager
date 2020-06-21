@@ -1,0 +1,11 @@
+.user_avatar {
+  width: auto;
+  height: 50px;
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+}
+  
+header .user_avatar {
+  margin-right: 10px;
+}
