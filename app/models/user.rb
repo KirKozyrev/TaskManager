@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
 
   def create_reset_digest
+    self.reset_token = nil
     self.reset_token = User.new_token
     self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
   end
