@@ -10,7 +10,7 @@ export default {
   },
 
   attributesToSubmit(task) {
-    const pertmittedKeys = ['id', 'name', 'description', 'assigneeId', 'authorId'];
+    const pertmittedKeys = ['id', 'name', 'description', 'assigneeId', 'authorId', 'file'];
 
     const authorIdOrDefault = propOr(task.author, 'id');
     const assigneeIdOrDefault = propOr(task.assignee, 'id');
