@@ -5,7 +5,6 @@ class SendPasswordResetNotificationJob < ApplicationJob
 
   def perform(user_id, reset_token)
     user = User.find(user_id);
-    return if user.blank?
     UserMailer.with(user: user, reset_token: reset_token).password_reset.deliver_now
   end
 end
