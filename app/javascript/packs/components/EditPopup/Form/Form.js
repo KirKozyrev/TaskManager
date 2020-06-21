@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { has } from 'ramda';
 import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
 
 import UserSelect from 'components/UserSelect';
 import TaskPresenter from 'presenters/TaskPresenter';
@@ -9,7 +11,9 @@ import TaskPresenter from 'presenters/TaskPresenter';
 import useStyles from './useStyles';
 
 const Form = ({ errors, onChange, task }) => {
+  const fileInput = React.createRef();
   const handleChangeTextField = (fieldName) => (event) => onChange({ ...task, [fieldName]: event.target.value });
+  const handleButtonClick = (fieldName) => () => onChange({ ...task, [fieldName]: fileInput.current.files[0].name });
   const handleChangeSelect = (fieldName) => (user) => onChange({ ...task, [fieldName]: user });
   const styles = useStyles();
 
@@ -49,6 +53,10 @@ const Form = ({ errors, onChange, task }) => {
         error={has('assignee', errors)}
         helperText={errors.assignee}
       />
+      <Input className={styles.fileInput} error={has('file', errors)} type="file" inputRef={fileInput} margin="dense" />
+      <Button onClick={handleButtonClick('file')} size="small" variant="contained" color="primary" margin="dense">
+        Submit file
+      </Button>
     </form>
   );
 };
@@ -61,6 +69,7 @@ Form.propTypes = {
     description: PropTypes.arrayOf(PropTypes.string),
     author: PropTypes.arrayOf(PropTypes.string),
     assignee: PropTypes.arrayOf(PropTypes.string),
+    file: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 

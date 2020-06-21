@@ -5,6 +5,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  fileInput: {
+    marginTop: '20px',
+    marginBottom: '10px',
+  },
 }));
 
 export default useStyles;
