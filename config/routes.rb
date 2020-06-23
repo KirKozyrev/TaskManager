@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  default_url_options Rails.application.config.action_mailer.default_url_options
+  
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   mount Sidekiq::Web => '/admin/sidekiq'
   root to: 'web/boards#show'
