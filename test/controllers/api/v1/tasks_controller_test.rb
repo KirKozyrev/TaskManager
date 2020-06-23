@@ -42,12 +42,15 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
       merge({ author_id: author.id, assignee_id: assignee.id }).
       stringify_keys
 
+    task.file.attach(io: File.open('/app/test/test_photo.png'), filename: 'test_photo.png')
+
     assert_emails 1 do
       patch :update, params: { id: task.id, task: task_attributes }, format: 'json'
     end
     assert_response :success
 
     task.reload
+    assert task.file.attached?
     task_attributes.keys.each do |key|
       assert_equal task_attributes[key.to_s].to_s, task[key.to_s].to_s
     end
