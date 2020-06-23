@@ -30,6 +30,12 @@ class Api::V1::TasksController < Api::V1::ApplicationController
   def update
     task = Task.find(params[:id])
 
+    if params[:file] && params[:file][:data_url].present?
+      file = decode_file(params[:file])
+      task.file.attach(io: File.open(file), filename: "task_file#{File.extname(file)}")
+      File.delete(file)
+    end
+
     if task.update(task_params)
       SendTaskUpdateNotificationJob.perform_async(task.id)
     end
@@ -53,5 +59,15 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
   def task_params
     params.require(:task).permit(:name, :description, :expired_at, :author_id, :assignee_id, :state_event, :file)
+  end
+
+  def decode_file(data)
+    data_url = data[:data_url]
+    data_url_start = data_url.index ';base64,'
+    data_url = data_url[(data_url_start + 8)..-1]
+
+    file = File.new(data[:name], 'wb')
+    file.write(Base64.decode64(data_url))
+    file
   end
 end
