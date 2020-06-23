@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { has } from 'ramda';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
 
 import UserSelect from 'components/UserSelect';
 import TaskPresenter from 'presenters/TaskPresenter';
@@ -13,9 +12,19 @@ import useStyles from './useStyles';
 const Form = ({ errors, onChange, task }) => {
   const fileInput = React.createRef();
   const handleChangeTextField = (fieldName) => (event) => onChange({ ...task, [fieldName]: event.target.value });
-  const handleButtonClick = (fieldName) => () => onChange({ ...task, [fieldName]: fileInput.current.files[0].name });
   const handleChangeSelect = (fieldName) => (user) => onChange({ ...task, [fieldName]: user });
   const styles = useStyles();
+
+  const handleChangeFileInput = (fieldName) => () => {
+    const reader = new FileReader();
+    const fileInfo = fileInput.current.files[0];
+    reader.readAsDataURL(fileInfo);
+
+    reader.onloadend = () => {
+      const file = { dataUrl: reader.result, name: fileInfo.name, type: fileInfo.type };
+      onChange({ ...task, [fieldName]: file });
+    };
+  };
 
   return (
     <form className={styles.root}>
@@ -53,10 +62,14 @@ const Form = ({ errors, onChange, task }) => {
         error={has('assignee', errors)}
         helperText={errors.assignee}
       />
-      <Input className={styles.fileInput} error={has('file', errors)} type="file" inputRef={fileInput} margin="dense" />
-      <Button onClick={handleButtonClick('file')} size="small" variant="contained" color="primary" margin="dense">
-        Submit file
-      </Button>
+      <Input
+        className={styles.fileInput}
+        onChange={handleChangeFileInput('file')}
+        error={has('file', errors)}
+        type="file"
+        inputRef={fileInput}
+        margin="dense"
+      />
     </form>
   );
 };
