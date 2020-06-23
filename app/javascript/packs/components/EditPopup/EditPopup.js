@@ -11,6 +11,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import AttachmentIcon from '@material-ui/icons/Attachment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import TaskPresenter from 'presenters/TaskPresenter';
@@ -38,6 +39,10 @@ const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard })
         alert(`Update Failed! Error: ${error.message}`);
       }
     });
+  };
+
+  const handleClickAttachment = () => {
+    location.href = task.file.url;
   };
 
   const handleCardDestroy = () => {
@@ -72,7 +77,15 @@ const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard })
               <CircularProgress />
             </div>
           ) : (
-            <Form errors={errors} onChange={setTask} task={task} />
+            <>
+              <Form errors={errors} onChange={setTask} task={task} />
+
+              {task.file.url && (
+                <IconButton onClick={handleClickAttachment}>
+                  <AttachmentIcon fontSize="large" color="action" />
+                </IconButton>
+              )}
+            </>
           )}
         </CardContent>
         <CardActions className={styles.actions}>
