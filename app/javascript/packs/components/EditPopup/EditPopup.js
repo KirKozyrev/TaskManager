@@ -80,7 +80,7 @@ const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard })
             <>
               <Form errors={errors} onChange={setTask} task={task} />
 
-              {task.file.url && (
+              {task.file && task.file.url && (
                 <IconButton onClick={handleClickAttachment}>
                   <AttachmentIcon fontSize="large" color="action" />
                 </IconButton>
