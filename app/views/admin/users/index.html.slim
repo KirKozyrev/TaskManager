@@ -14,7 +14,6 @@ h3 Users list
     thead
       tr
         th= sort_link(@q, :id, "#")
-        th= sort_link(@q, :avatar, "Avatar")
         th= sort_link(@q, :first_name, "First Name")
         th= sort_link(@q, :last_name, "Last Name")
         th= sort_link(@q, :email, "Email")
@@ -24,9 +23,6 @@ h3 Users list
       - @users.each do |user|
         tr
           td= user.id
-          td
-            -if user.avatar.attached?
-              img.user_avatar src= url_for(user.avatar)
           td= user.first_name
           td= user.last_name
           td= user.email
