@@ -72,31 +72,33 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     end
     assert_response :success
 
-    assert !Task.where(id: task.id).exists?
+    assert_not Task.where(id: task.id).exists?
   end
 
   test 'should put attach_image' do
     author = create(:user)
     task = create(:task, author: author)
-    image = file_fixture('test_photo.png')
-    attachment_params = { image: Rack::Test::UploadedFile.new(image, 'image/png'), crop_x: 190, crop_y: 100, crop_width: 300, crop_height: 300 }
+    image = file_fixture('test_photo.jpg')
+    attachment_params = { image: fixture_file_upload(image, 'image/jpeg'), crop_x: 190, crop_y: 100, crop_width: 300, crop_height: 300 }
 
-    put :attach_image, params: { id: task.id, attachment: attachment_params, format: :json }
+    put :attach_image, params: { id: task.id, attachment: attachment_params }, format: :json
 
     assert_response :success
-    task.reload(assert { task.image.attached? })
+    task.reload
+    assert task.image.attached?
   end
 
   test 'should put remove_image' do
     author = create(:user)
     task = create(:task, author: author)
-    image = file_fixture('test_photo.png')
-    attachableimage = Rack::Test::UploadedFile.new(image)
+    image = file_fixture('test_photo.jpg')
+    attachable_image = fixture_file_upload(image)
     task.image.attach(attachable_image)
 
-    put :remove_image, params: { id: task.id, format: :json }
+    put :remove_image, params: { id: task.id }, format: :json
 
     assert_response :success
-    task.reload(refute { task.image.attached? })
+    task.reload
+    assert_not task.image.attached?
   end
 end
