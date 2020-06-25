@@ -11,8 +11,8 @@ class User < ApplicationRecord
   validates :reset_digest, uniqueness: true
 
   def create_reset_digest
-    self.reset_token = nil if self.reset_token.present?
     self.reset_token = User.new_token
+    self.create_reset_digest if User.find_by(reset_digest: User.encrypt(self.reset_token))
     self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
   end
 
