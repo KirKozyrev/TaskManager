@@ -2,6 +2,7 @@ class Api::V1::TasksController < Api::V1::ApplicationController
   def index
     tasks = Task.
       includes([:author, :assignee]).
+      with_attached_image.
       ransack(ransack_params).
       result.
       order(created_at: :desc).
