@@ -30,7 +30,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     patch :update, params: { id: user.id, user: user_attrs }
     searched_user = User.find(user.id)
     user_attrs.each do |key, value|
-      unless (key.to_s == 'avatar') || (key.to_s == 'password')
+      unless (key.to_s == 'avatar') || (key.to_s == 'password') || (key.to_s == 'reset_digest')
         assert_equal value, searched_user[key]
       end
     end
