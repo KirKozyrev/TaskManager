@@ -8,7 +8,7 @@ class TaskAttachImageForm
   attribute :crop_x, Integer 
   attribute :crop_y, Integer
 
-  with_options numericality: { onlyinteger: true, greaterthanorequalto: 0 } do 
+  with_options numericality: { only_integer: true, greater_than_or_equal_to: 0 } do 
     validates :crop_width, if: -> { crop_width.present? } 
     validates :crop_height, if: -> { crop_height.present? } 
     validates :crop_x, if: -> { crop_x.present? } 
