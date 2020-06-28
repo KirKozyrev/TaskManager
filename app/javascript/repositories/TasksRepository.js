@@ -26,4 +26,9 @@ export default {
     const path = routes.apiV1TaskPath(id);
     return FetchHelper.delete(path);
   },
+
+  attachImage(id, params) {
+    const path = routes.apiV1TaskPath(id);
+    return FetchHelper.putFormData(path, params);
+  },
 };
