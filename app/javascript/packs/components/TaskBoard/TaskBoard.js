@@ -156,7 +156,7 @@ const TaskBoard = () => {
   const handleAttachImage = (task, attachment) => {
     const attributes = AttachmentForm.attributesToSubmit(attachment);
 
-    return TasksRepository.attachImage(task.id, attributes).then(() => {
+    return TasksRepository.attachImage(task.id, { attachment: attributes }).then(() => {
       loadColumnInitial(task.state);
       handleClose();
     });

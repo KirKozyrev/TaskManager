@@ -1,6 +1,4 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
-  before_action :params_from_formdata, only: [:attach_image]
-
   def index
     tasks = Task.
       includes([:author, :assignee]).
@@ -82,13 +80,5 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
   def attachment_params
     params.require(:attachment).permit(:image, :crop_x, :crop_y, :crop_width, :crop_height)
-  end
-
-  def params_from_formdata
-    params[:attachment] = {} if params[:attachment].nil?
-    params.each do |key, value|
-      params[:attachment][key] = value
-    end
-    params
   end
 end

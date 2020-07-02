@@ -64,10 +64,10 @@ export default {
   },
 
   putFormData(url, json) {
-    const file = json.image;
+    const file = json.attachment.image;
     const body = decamelize(json);
+    body.attachment.image = file;
     const formData = objectToFormData(body);
-    formData.set('image', file);
 
     return axios
       .put(url, formData, {
