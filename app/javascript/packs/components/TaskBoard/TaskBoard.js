@@ -10,6 +10,7 @@ import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
 import ColumnHeader from 'components/ColumnHeader';
 import TasksRepository from 'repositories/TasksRepository';
+import AttachmentForm from 'forms/AttachmentForm';
 
 import useStyles from './useStyles';
 
@@ -152,6 +153,22 @@ const TaskBoard = () => {
     });
   };
 
+  const handleAttachImage = (task, attachment) => {
+    const attributes = AttachmentForm.attributesToSubmit(attachment);
+
+    return TasksRepository.attachImage(task.id, attributes).then(() => {
+      loadColumnInitial(task.state);
+      handleClose();
+    });
+  };
+
+  const handleRemoveImage = (task) => {
+    return TasksRepository.removeImage(task.id).then(() => {
+      loadColumnInitial(task.state);
+      handleClose();
+    });
+  };
+
   useEffect(() => loadBoard(), []);
   useEffect(() => generateBoard(), [boardCards]);
 
@@ -170,6 +187,8 @@ const TaskBoard = () => {
           onLoadCard={loadTask}
           onDestroyCard={handleTaskDestroy}
           onUpdateCard={handleTaskUpdate}
+          onSaveImage={handleAttachImage}
+          onDeleteImage={handleRemoveImage}
           onClose={handleClose}
           cardId={openedTaskId}
         />
