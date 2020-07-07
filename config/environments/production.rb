@@ -92,8 +92,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => ENV['PRODUCTION_HOST'] }
   config.action_mailer.smtp_settings = {
-    user_name: ENV['MAILER_USERNAME'],
-    password: ENV['MAILER_PASSWORD'],
+    user_name: Rails.application.secrets.MAILER_USERNAME,
+    password: Rails.application.secrets.MAILER_PASSWORD,
     address: ENV['MAILER_ADDRESS'],
     port: ENV['MAILER_PORT'],
     domain: ENV['MAILER_DOMAIN'],

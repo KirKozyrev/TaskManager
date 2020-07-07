@@ -26,8 +26,6 @@ services:
       DATABASE_HOST: db
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
-      MAILER_USERNAME: development.work73@gmail.com
-      MAILER_PASSWORD: taskmanager73
       MAILER_ADDRESS: smtp.gmail.com
       MAILER_PORT: 587
       MAILER_DOMAIN: taskmanager.com
@@ -35,8 +33,6 @@ services:
       LOCAL_HOST: 0.0.0.0:3000
       PRODUCTION_HOST: sleepy-brushlands-18624.herokuapp.com
       REDIS_URL: redis://redis
-      AWS_ACCESS_KEY_ID: AKIA3C4UHVZWMIRL6BPF
-      AWS_SECRET_ACCESS_KEY: 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
     command: bundle exec rails s -b '0.0.0.0' -p 3000
 
   db:
