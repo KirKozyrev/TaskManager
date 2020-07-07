@@ -187,8 +187,8 @@ const TaskBoard = () => {
           onLoadCard={loadTask}
           onDestroyCard={handleTaskDestroy}
           onUpdateCard={handleTaskUpdate}
-          onSaveImage={handleAttachImage}
-          onDeleteImage={handleRemoveImage}
+          onAttachImage={handleAttachImage}
+          onRemoveImage={handleRemoveImage}
           onClose={handleClose}
           cardId={openedTaskId}
         />

@@ -17,7 +17,7 @@ import TaskPresenter from 'presenters/TaskPresenter';
 
 import useStyles from './useStyles';
 
-const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard, onSaveImage, onDeleteImage }) => {
+const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard, onAttachImage, onRemoveImage }) => {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
@@ -51,21 +51,13 @@ const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard, o
   };
 
   const handleAttachImage = (attachment) => {
-    setSaving(true);
-
-    onSaveImage(task, attachment).catch((error) => {
-      setSaving(false);
-
+    onAttachImage(task, attachment).catch((error) => {
       alert(`Image Upload Failed! Error: ${error.message}`);
     });
   };
 
   const handleRemoveImage = () => {
-    setSaving(true);
-
-    onDeleteImage(task).catch((error) => {
-      setSaving(false);
-
+    onRemoveImage(task).catch((error) => {
       alert(`Image Delete Failed! Error: ${error.message}`);
     });
   };
@@ -95,8 +87,8 @@ const EditPopup = ({ cardId, onClose, onDestroyCard, onLoadCard, onUpdateCard, o
             <Form
               errors={errors}
               onChange={setTask}
-              onSaveImage={handleAttachImage}
-              onDeleteImage={handleRemoveImage}
+              onAttachImage={handleAttachImage}
+              onRemoveImage={handleRemoveImage}
               task={task}
             />
           )}
@@ -132,8 +124,8 @@ EditPopup.propTypes = {
   onDestroyCard: PropTypes.func.isRequired,
   onLoadCard: PropTypes.func.isRequired,
   onUpdateCard: PropTypes.func.isRequired,
-  onSaveImage: PropTypes.func.isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
+  onAttachImage: PropTypes.func.isRequired,
+  onRemoveImage: PropTypes.func.isRequired,
 };
 
 export default EditPopup;

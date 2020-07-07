@@ -10,11 +10,11 @@ import TaskPresenter from 'presenters/TaskPresenter';
 
 import useStyles from './useStyles';
 
-const Form = ({ errors, onChange, onSaveImage, onDeleteImage, task }) => {
+const Form = ({ errors, onChange, onAttachImage, onRemoveImage, task }) => {
   const handleChangeTextField = (fieldName) => (event) => onChange({ ...task, [fieldName]: event.target.value });
   const handleChangeSelect = (fieldName) => (user) => onChange({ ...task, [fieldName]: user });
-  const handleAttachImage = (attachment) => onSaveImage(attachment);
-  const handleRemoveImage = () => onDeleteImage();
+  const handleAttachImage = (attachment) => onAttachImage(attachment);
+  const handleRemoveImage = () => onRemoveImage();
 
   const styles = useStyles();
 
@@ -72,8 +72,8 @@ const Form = ({ errors, onChange, onSaveImage, onDeleteImage, task }) => {
 
 Form.propTypes = {
   onChange: PropTypes.func.isRequired,
-  onSaveImage: PropTypes.func.isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
+  onAttachImage: PropTypes.func.isRequired,
+  onRemoveImage: PropTypes.func.isRequired,
   task: PropTypes.shape().isRequired,
   errors: PropTypes.shape({
     name: PropTypes.arrayOf(PropTypes.string),
