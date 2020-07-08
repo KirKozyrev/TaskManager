@@ -20,7 +20,7 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
   def create
     task = current_user.my_tasks.new(task_params)
-    
+
     if task.save
       SendTaskCreateNotificationJob.perform_async(task.id)
     end
@@ -34,7 +34,7 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     if task.update(task_params)
       SendTaskUpdateNotificationJob.perform_async(task.id)
     end
-    
+
     respond_with(task, serializer: TaskSerializer)
   end
 
@@ -50,12 +50,12 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     respond_with(task, serializer: TaskSerializer)
   end
 
-  def attach_image 
+  def attach_image
     task = Task.find(params[:id])
     task_attach_image_form = TaskAttachImageForm.new(attachment_params)
 
     if task_attach_image_form.invalid?
-      respond_with task_attach_image_form
+      respond_with(task_attach_image_form)
       return
     end
 
@@ -64,8 +64,8 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
     respond_with(task, serializer: TaskSerializer)
   end
-    
-  def remove_image 
+
+  def remove_image
     task = Task.find(params[:id])
     task.image.purge
 

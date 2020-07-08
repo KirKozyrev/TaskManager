@@ -30,9 +30,9 @@ gem 'virtus'
 gem 'webpacker', '~> 4.0'
 gem 'webpacker-react'
 
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'coveralls', '>= 0.8.23',require: false
+gem 'coveralls', '>= 0.8.23', require: false
 
 group :development, :test do
   gem 'bullet'
@@ -51,7 +51,7 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
-  gem 'simplecov', '~> 0.16.1',require: false
+  gem 'simplecov', '~> 0.16.1', require: false
   gem 'webdrivers'
 end
 

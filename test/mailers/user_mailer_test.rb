@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-  test "task created" do
+  test 'task created' do
     user = create(:user)
     task = create(:task, author: user)
     params = { user: user, task: task }
@@ -17,7 +17,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert email.body.to_s.include?("Task #{task.id} was created")
   end
 
-  test "task updated" do
+  test 'task updated' do
     user = create(:user)
     task = create(:task, author: user)
     params = { user: user, task: task }
@@ -33,7 +33,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert email.body.to_s.include?("Task #{task.id} was updated")
   end
 
-  test "task deleted" do
+  test 'task deleted' do
     user = create(:user)
     task = create(:task, author: user)
     params = { user: user, id: task.id }
@@ -49,10 +49,10 @@ class UserMailerTest < ActionMailer::TestCase
     assert email.body.to_s.include?("Task #{task.id} was deleted")
   end
 
-  test "password reset" do
+  test 'password reset' do
     user = create(:user)
     user.create_reset_digest
-    params = { user: user }.merge({reset_token: user.reset_token})
+    params = { user: user }.merge({ reset_token: user.reset_token })
 
     email = UserMailer.with(params).password_reset
 
@@ -63,6 +63,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal ['noreply@taskmanager.com'], email.from
     assert_equal [user.email], email.to
     assert_equal 'Password Reset', email.subject
-    assert email.body.to_s.include?("Link for password reset:")
+    assert email.body.to_s.include?('Link for password reset:')
   end
 end

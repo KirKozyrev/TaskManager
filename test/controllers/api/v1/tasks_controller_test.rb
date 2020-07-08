@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class Api::V1::TasksControllerTest < ActionController::TestCase
-  def after_teardown 
+  def after_teardown
     super
-    remove_uploaded_files 
+    remove_uploaded_files
   end
-    
-  def remove_uploaded_files 
-    FileUtils.rm_rf(ActiveStorage::Blob.service.root) 
+
+  def remove_uploaded_files
+    FileUtils.rm_rf(ActiveStorage::Blob.service.root)
   end
 
   test 'should get show' do

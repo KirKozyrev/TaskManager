@@ -1,5 +1,6 @@
 ActiveRecord::Schema.define(version: 2020_06_25_192506) do
   enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,7 +38,6 @@ ActiveRecord::Schema.define(version: 2020_06_25_192506) do
     t.string "last_name"
     t.string "password_digest"
     t.string "email"
-    t.string "avatar"
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
