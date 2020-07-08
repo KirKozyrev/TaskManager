@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :reset_token
+
   has_secure_password
   has_many :my_tasks, class_name: 'Task', foreign_key: :author_id
   has_many :assigned_tasks, class_name: 'Task', foreign_key: :assignee_id
@@ -6,4 +8,23 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
+  validates :reset_digest, uniqueness: true
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    self.create_reset_digest if User.find_by(reset_digest: User.encrypt(self.reset_token))
+    self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
+  end
+
+  def token_expire?
+    self.reset_sent_at < ONE_DAY_AGO
+  end
+
+  def self.encrypt(string)
+    Base64.encode64(string)
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
 end
