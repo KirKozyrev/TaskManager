@@ -8,14 +8,16 @@ class User < ApplicationRecord
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
+  validates :reset_digest, uniqueness: true
 
   def create_reset_digest
     self.reset_token = User.new_token
+    self.create_reset_digest if User.find_by(reset_digest: User.encrypt(self.reset_token))
     self.update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
   end
 
   def token_expire?
-    return true if self.reset_sent_at < 24.hours.ago
+    self.reset_sent_at < ONE_DAY_AGO
   end
 
   def self.encrypt(string)

@@ -9,7 +9,7 @@ class Web::PasswordResetsController < Web::ApplicationController
     @password_reset = ResetForm.new(password_reset_params)
     user = @password_reset.user
     
-    if @password_reset.valid?
+    if user.present? && @password_reset.valid?
       user.create_reset_digest
 
       SendPasswordResetNotificationJob.perform_async(user.id, user.reset_token)
@@ -18,10 +18,15 @@ class Web::PasswordResetsController < Web::ApplicationController
     else
       render(:new)
     end
+
+    redirect_to root_url
   end
 
   def update
-    redirect_to root_url if @user.token_expire?
+    if @user.token_expire?
+      redirect_to root_url 
+      return
+    end
 
     if @user.update(user_params)
       @user.reset_digest = nil
@@ -47,6 +52,11 @@ class Web::PasswordResetsController < Web::ApplicationController
 
   def get_user
     @user = User.find_by(reset_digest: User.encrypt(params[:id]))
-    @user_type = @user.type.downcase || 'user'
+
+    if @user.present?
+      @user_type = @user.type.downcase
+    else
+      redirect_to root_url
+    end
   end
 end
