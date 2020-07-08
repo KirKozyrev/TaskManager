@@ -1,0 +1,1 @@
+ONE_DAY_AGO = 24.hours.ago

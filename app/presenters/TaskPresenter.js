@@ -7,4 +7,5 @@ export default new PropTypesPresenter({
   description: PropTypes.string,
   author: PropTypes.shape(),
   assignee: PropTypes.shape(),
+  imageUrl: PropTypes.string,
 });
