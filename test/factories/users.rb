@@ -5,6 +5,7 @@ FactoryBot.define do
     password
     email
     avatar { generate :string }
+    reset_digest { generate :string }
 
     factory :admin do
       type { 'Admin' }
