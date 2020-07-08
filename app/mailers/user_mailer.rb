@@ -17,13 +17,14 @@ class UserMailer < ApplicationMailer
 
   def task_deleted
     user = params[:user]
-    @task = params[:task]
+    @task_id = params[:id]
 
     mail(to: user.email, subject: 'Task Deleted')
   end
 
   def password_reset
     @user = params[:user]
+    @token = params[:reset_token]
 
     mail(to: @user.email, subject: 'Password Reset')
   end
