@@ -33,6 +33,9 @@ services:
       HOST: 0.0.0.0:3000
       PRODUCTION_HOST: sleepy-brushlands-18624.herokuapp.com
       REDIS_URL: redis://redis
+      COVERALLS_TOKEN: cb3By1upKJctZv4k1S7XoTuFneDhjmnhP
+      ROLLBAR_TOKEN: 88a2e474717f4a4fa30665d87a08ee14
+      NEWRELIC_TOKEN: eu01xx442c267b5cf7fafdc68f09316eb7a5NRAL
     command: bundle exec rails s -b '0.0.0.0' -p 3000
 
   db:
