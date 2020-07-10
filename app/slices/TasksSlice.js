@@ -25,6 +25,18 @@ const initialState = {
   },
 };
 
+const getColumnIndex = (state, key) => {
+  const column = state.board.columns.find(propEq('id', key));
+  const indexOfColumn = state.board.columns.indexOf(column);
+  return indexOfColumn;
+};
+
+const getCardIndex = (state, columnIndex, id) => {
+  const card = state.board.columns[columnIndex].cards.find(propEq('id', id));
+  const indexOfCard = state.board.columns[columnIndex].cards.indexOf(card);
+  return indexOfCard;
+};
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -43,7 +55,7 @@ const tasksSlice = createSlice({
     loadColumnMoreSuccess(state, { payload }) {
       const { items, meta, columnId } = payload;
       const column = state.board.columns.find(propEq('id', columnId));
-      const indexOfColumn = state.board.columns.indexOf(column);
+      const indexOfColumn = getColumnIndex(state, columnId);
       const cards = state.board.columns[indexOfColumn].cards.concat(items);
       state.board = changeColumn(state.board, column, {
         cards,
@@ -55,8 +67,7 @@ const tasksSlice = createSlice({
 
     createTaskSuccess(state, { payload }) {
       const { task } = payload;
-      const column = state.board.columns.find(propEq('id', task.state));
-      const indexOfColumn = state.board.columns.indexOf(column);
+      const indexOfColumn = getColumnIndex(state, task.state);
 
       state.board.columns[indexOfColumn].cards.unshift(task);
       return state;
@@ -64,10 +75,8 @@ const tasksSlice = createSlice({
 
     updateTaskSuccess(state, { payload }) {
       const { task } = payload;
-      const column = state.board.columns.find(propEq('id', task.state));
-      const indexOfColumn = state.board.columns.indexOf(column);
-      const card = state.board.columns[indexOfColumn].cards.find(propEq('id', task.id));
-      const indexOfCard = state.board.columns[indexOfColumn].cards.indexOf(card);
+      const indexOfColumn = getColumnIndex(state, task.state);
+      const indexOfCard = getCardIndex(state, indexOfColumn, task.id);
 
       state.board.columns[indexOfColumn].cards[indexOfCard] = task;
       return state;
@@ -75,12 +84,23 @@ const tasksSlice = createSlice({
 
     destroyTaskSuccess(state, { payload }) {
       const { task } = payload;
-      const column = state.board.columns.find(propEq('id', task.state));
-      const indexOfColumn = state.board.columns.indexOf(column);
-      const card = state.board.columns[indexOfColumn].cards.find(propEq('id', task.id));
-      const indexOfCard = state.board.columns[indexOfColumn].cards.indexOf(card);
+      const indexOfColumn = getColumnIndex(state, task.state);
+      const indexOfCard = getCardIndex(state, indexOfColumn, task.id);
 
       state.board.columns[indexOfColumn].cards.splice(indexOfCard, 1);
+      return state;
+    },
+
+    moveTaskSuccess(state, { payload }) {
+      const { task: oldTask, responseData: newTask } = payload;
+      const indexOfColumnOldTask = getColumnIndex(state, oldTask.state);
+      const indexOfCard = getCardIndex(state, indexOfColumnOldTask, oldTask.id);
+
+      state.board.columns[indexOfColumnOldTask].cards.splice(indexOfCard, 1);
+
+      const indexOfColumnNewTask = getColumnIndex(state, newTask.state);
+
+      state.board.columns[indexOfColumnNewTask].cards.unshift(newTask);
       return state;
     },
   },
@@ -92,6 +112,7 @@ const {
   createTaskSuccess,
   updateTaskSuccess,
   destroyTaskSuccess,
+  moveTaskSuccess,
 } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
@@ -109,7 +130,7 @@ export const useTasksActions = () => {
     });
   };
 
-  const loadMoreCards = (state, page, perPage = 10) => {
+  const loadMoreCards = (state, page = 1, perPage = 10) => {
     TasksRepository.index({
       q: { stateEq: state },
       page,
@@ -137,10 +158,10 @@ export const useTasksActions = () => {
     });
   };
 
-  const changeState = (task, attributes) => {
+  const moveTask = (task, attributes) => {
     return TasksRepository.update(task.id, attributes).then(({ data }) => {
-      dispatch(destroyTaskSuccess({ task }));
-      dispatch(createTaskSuccess(data));
+      const responseData = data.task;
+      dispatch(moveTaskSuccess({ task, responseData }));
     });
   };
 
@@ -163,7 +184,7 @@ export const useTasksActions = () => {
     createTask,
     destroyTask,
     updateTask,
-    changeState,
+    moveTask,
     loadMoreCards,
     attachImage,
     removeImage,

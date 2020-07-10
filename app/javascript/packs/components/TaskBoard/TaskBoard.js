@@ -23,15 +23,7 @@ const MODES = {
 
 const TaskBoard = (props) => {
   const styles = useStyles();
-  const {
-    createTask,
-    destroyTask,
-    updateTask,
-    changeState,
-    loadMoreCards,
-    attachImage,
-    removeImage,
-  } = useTasksActions();
+  const { createTask, destroyTask, updateTask, moveTask, loadMoreCards, attachImage, removeImage } = useTasksActions();
 
   const { board, loadBoard } = props;
   const [mode, setMode] = useState(MODES.NONE);
@@ -90,7 +82,7 @@ const TaskBoard = (props) => {
       return null;
     }
 
-    return changeState(task, { task: { stateEvent: transition.event } })
+    return moveTask(task, { task: { stateEvent: transition.event } })
       .then(() => {})
       .catch((error) => {
         alert(`Move failed! ${error.message}`);
