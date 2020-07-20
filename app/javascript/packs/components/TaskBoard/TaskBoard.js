@@ -10,7 +10,6 @@ import TaskForm from 'forms/TaskForm';
 import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
 import ColumnHeader from 'components/ColumnHeader';
-import TasksRepository from 'repositories/TasksRepository';
 import AttachmentForm from 'forms/AttachmentForm';
 
 import useStyles from './useStyles';
@@ -25,7 +24,7 @@ const TaskBoard = (props) => {
   const styles = useStyles();
   const { createTask, destroyTask, updateTask, moveTask, loadMoreCards, attachImage, removeImage } = useTasksActions();
 
-  const { board, loadBoard } = props;
+  const { board, loadBoard, loadTask } = props;
   const [mode, setMode] = useState(MODES.NONE);
   const [openedTaskId, setOpenedTaskId] = useState(null);
 
@@ -59,7 +58,7 @@ const TaskBoard = (props) => {
   };
 
   const handleTaskLoad = (id) => {
-    return TasksRepository.show(id).then(({ data: { task } }) => task);
+    return loadTask(id);
   };
 
   const handleTaskUpdate = (task) => {
@@ -133,6 +132,7 @@ const TaskBoard = (props) => {
 
 TaskBoard.propTypes = {
   loadBoard: PropTypes.func.isRequired,
+  loadTask: PropTypes.func.isRequired,
   board: PropTypes.shape({
     columns: PropTypes.arrayOf(
       PropTypes.shape({

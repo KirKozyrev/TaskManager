@@ -10,7 +10,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <TaskBoardContainer>
-        {({ board, loadBoard }) => <TaskBoard loadBoard={loadBoard} board={board} />}
+        {({ board, loadBoard, loadTask }) => <TaskBoard loadBoard={loadBoard} board={board} loadTask={loadTask} />}
       </TaskBoardContainer>
     </Provider>
   );
