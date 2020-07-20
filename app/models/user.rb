@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include UserRepository
+
   attr_accessor :reset_token
 
   has_secure_password
@@ -9,22 +11,4 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :email, presence: true, uniqueness: true, format: { with: /@/ }
   validates :reset_digest, uniqueness: true, presence: true, if: :reset_digest
-
-  def create_reset_digest
-    self.reset_token = User.new_token
-    create_reset_digest if User.find_by(reset_digest: User.encrypt(reset_token))
-    update(reset_digest: User.encrypt(reset_token), reset_sent_at: Time.zone.now)
-  end
-
-  def token_expire?
-    reset_sent_at < ONE_DAY_AGO
-  end
-
-  def self.encrypt(string)
-    Base64.encode64(string)
-  end
-
-  def self.new_token
-    SecureRandom.urlsafe_base64
-  end
 end
