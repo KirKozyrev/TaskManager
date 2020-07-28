@@ -22,9 +22,18 @@ const MODES = {
 
 const TaskBoard = (props) => {
   const styles = useStyles();
-  const { createTask, destroyTask, updateTask, moveTask, loadMoreCards, attachImage, removeImage } = useTasksActions();
+  const {
+    loadTask,
+    createTask,
+    destroyTask,
+    updateTask,
+    moveTask,
+    loadMoreCards,
+    attachImage,
+    removeImage,
+  } = useTasksActions();
 
-  const { board, loadBoard, loadTask } = props;
+  const { board, loadBoard } = props;
   const [mode, setMode] = useState(MODES.NONE);
   const [openedTaskId, setOpenedTaskId] = useState(null);
 
@@ -132,7 +141,6 @@ const TaskBoard = (props) => {
 
 TaskBoard.propTypes = {
   loadBoard: PropTypes.func.isRequired,
-  loadTask: PropTypes.func.isRequired,
   board: PropTypes.shape({
     columns: PropTypes.arrayOf(
       PropTypes.shape({

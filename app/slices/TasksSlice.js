@@ -27,14 +27,12 @@ const initialState = {
 
 const getColumnIndex = (state, key) => {
   const column = state.board.columns.find(propEq('id', key));
-  const indexOfColumn = state.board.columns.indexOf(column);
-  return indexOfColumn;
+  return state.board.columns.indexOf(column);
 };
 
 const getCardIndex = (state, columnIndex, id) => {
   const card = state.board.columns[columnIndex].cards.find(propEq('id', id));
-  const indexOfCard = state.board.columns[columnIndex].cards.indexOf(card);
-  return indexOfCard;
+  return state.board.columns[columnIndex].cards.indexOf(card);
 };
 
 const tasksSlice = createSlice({
@@ -120,6 +118,10 @@ export default tasksSlice.reducer;
 export const useTasksActions = () => {
   const dispatch = useDispatch();
 
+  const loadTask = (taskId) => {
+    return TasksRepository.show(taskId).then(({ data: { task } }) => task);
+  };
+
   const loadColumn = (state, page = 1, perPage = 10) => {
     TasksRepository.index({
       q: { stateEq: state },
@@ -180,6 +182,7 @@ export const useTasksActions = () => {
   const loadBoard = () => STATES.map(({ key }) => loadColumn(key));
 
   return {
+    loadTask,
     loadBoard,
     createTask,
     destroyTask,
