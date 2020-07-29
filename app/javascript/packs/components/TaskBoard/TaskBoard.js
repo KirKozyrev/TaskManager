@@ -1,37 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import KanbanBoard from '@lourenci/react-kanban';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { propOr } from 'ramda';
+import { useTasksActions } from 'slices/TasksSlice';
 
 import Task from 'components/Task';
 import TaskForm from 'forms/TaskForm';
 import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
 import ColumnHeader from 'components/ColumnHeader';
-import TasksRepository from 'repositories/TasksRepository';
 import AttachmentForm from 'forms/AttachmentForm';
 
 import useStyles from './useStyles';
-
-const STATES = [
-  { key: 'new_task', value: 'New' },
-  { key: 'in_development', value: 'In Dev' },
-  { key: 'in_qa', value: 'In QA' },
-  { key: 'in_code_review', value: 'in CR' },
-  { key: 'ready_for_release', value: 'Ready for release' },
-  { key: 'released', value: 'Released' },
-  { key: 'archived', value: 'Archived' },
-];
-
-const initialBoard = {
-  columns: STATES.map((column) => ({
-    id: column.key,
-    title: column.value,
-    cards: [],
-    meta: {},
-  })),
-};
 
 const MODES = {
   ADD: 'add',
@@ -39,13 +20,26 @@ const MODES = {
   NONE: 'none',
 };
 
-const TaskBoard = () => {
+const TaskBoard = (props) => {
   const styles = useStyles();
+  const {
+    loadTask,
+    createTask,
+    destroyTask,
+    updateTask,
+    moveTask,
+    loadMoreCards,
+    attachImage,
+    removeImage,
+  } = useTasksActions();
 
-  const [board, setBoard] = useState(initialBoard);
-  const [boardCards, setBoardCards] = useState([]);
+  const { board, loadBoard } = props;
   const [mode, setMode] = useState(MODES.NONE);
   const [openedTaskId, setOpenedTaskId] = useState(null);
+
+  useEffect(() => {
+    loadBoard();
+  }, []);
 
   const handleOpenAddPopup = () => {
     setMode(MODES.ADD);
@@ -60,53 +54,34 @@ const TaskBoard = () => {
     setMode(MODES.NONE);
   };
 
-  const generateBoard = () => {
-    const generatedBoard = {
-      columns: STATES.map(({ key, value }) => {
-        return {
-          id: key,
-          title: value,
-          cards: propOr({}, 'cards', boardCards[key]),
-          meta: propOr({}, 'meta', boardCards[key]),
-        };
-      }),
-    };
-
-    setBoard(generatedBoard);
+  const loadColumnMore = (state, page) => {
+    loadMoreCards(state, page);
   };
 
-  const loadColumn = (state, page, perPage) => {
-    return TasksRepository.index({
-      q: { stateEq: state },
-      page,
-      perPage,
+  const handleTaskCreate = (params) => {
+    const attributes = TaskForm.attributesToSubmit(params);
+
+    return createTask(attributes).then(() => {
+      handleClose();
     });
   };
 
-  const loadColumnInitial = (state, page = 1, perPage = 10) => {
-    loadColumn(state, page, perPage).then(({ data }) => {
-      setBoardCards((prevState) => {
-        return {
-          ...prevState,
-          [state]: { cards: data.items, meta: data.meta },
-        };
-      });
+  const handleTaskLoad = (id) => {
+    return loadTask(id);
+  };
+
+  const handleTaskUpdate = (task) => {
+    const attributes = TaskForm.attributesToSubmit(task);
+
+    return updateTask(task.id, attributes).then(() => {
+      handleClose();
     });
   };
 
-  const loadColumnMore = (state, page = 1, perPage = 10) => {
-    loadColumn(state, page, perPage).then(({ data }) => {
-      setBoardCards((prevState) => {
-        return {
-          ...prevState,
-          [state]: { cards: prevState[state].cards.concat(data.items), meta: data.meta },
-        };
-      });
+  const handleTaskDestroy = (task) => {
+    return destroyTask(task).then(() => {
+      handleClose();
     });
-  };
-
-  const loadBoard = () => {
-    STATES.map(({ key }) => loadColumnInitial(key));
   };
 
   const handleCardDragEnd = (task, source, destination) => {
@@ -115,62 +90,26 @@ const TaskBoard = () => {
       return null;
     }
 
-    return TasksRepository.update(task.id, { task: { stateEvent: transition.event } })
-      .then(() => {
-        loadColumnInitial(destination.toColumnId);
-        loadColumnInitial(source.fromColumnId);
-      })
+    return moveTask(task, { task: { stateEvent: transition.event } })
+      .then(() => {})
       .catch((error) => {
         alert(`Move failed! ${error.message}`);
       });
   };
 
-  const handleTaskCreate = (params) => {
-    const attributes = TaskForm.attributesToSubmit(params);
-    return TasksRepository.create(attributes).then(({ data: { task } }) => {
-      loadColumnInitial(task.state);
-      setMode(MODES.NONE);
-    });
-  };
-
-  const loadTask = (id) => {
-    return TasksRepository.show(id).then(({ data: { task } }) => task);
-  };
-
-  const handleTaskUpdate = (task) => {
-    const attributes = TaskForm.attributesToSubmit(task);
-
-    return TasksRepository.update(task.id, attributes).then(() => {
-      loadColumnInitial(task.state);
-      handleClose();
-    });
-  };
-
-  const handleTaskDestroy = (task) => {
-    return TasksRepository.destroy(task.id).then(() => {
-      loadColumnInitial(task.state);
-      handleClose();
-    });
-  };
-
   const handleAttachImage = (task, attachment) => {
     const attributes = AttachmentForm.attributesToSubmit(attachment);
 
-    return TasksRepository.attachImage(task.id, { attachment: attributes }).then(() => {
-      loadColumnInitial(task.state);
+    return attachImage(task.id, { attachment: attributes }).then(() => {
       handleClose();
     });
   };
 
   const handleRemoveImage = (task) => {
-    return TasksRepository.removeImage(task.id).then(() => {
-      loadColumnInitial(task.state);
+    return removeImage(task.id).then(() => {
       handleClose();
     });
   };
-
-  useEffect(() => loadBoard(), []);
-  useEffect(() => generateBoard(), [boardCards]);
 
   return (
     <>
@@ -184,7 +123,7 @@ const TaskBoard = () => {
       {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />}
       {mode === MODES.EDIT && (
         <EditPopup
-          onLoadCard={loadTask}
+          onLoadCard={handleTaskLoad}
           onDestroyCard={handleTaskDestroy}
           onUpdateCard={handleTaskUpdate}
           onAttachImage={handleAttachImage}
@@ -198,6 +137,20 @@ const TaskBoard = () => {
       </Fab>
     </>
   );
+};
+
+TaskBoard.propTypes = {
+  loadBoard: PropTypes.func.isRequired,
+  board: PropTypes.shape({
+    columns: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        cards: PropTypes.array.isRequired,
+        meta: PropTypes.shape({}).isRequired,
+      }),
+    ),
+  }).isRequired,
 };
 
 export default TaskBoard;
